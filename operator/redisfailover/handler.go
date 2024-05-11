@@ -54,10 +54,17 @@ func NewRedisFailoverHandler(config Config, rfService rfservice.RedisFailoverCli
 
 // Handle will ensure the redis failover is in the expected state.
 func (r *RedisFailoverHandler) Handle(_ context.Context, obj runtime.Object) error {
-
 	rf, ok := obj.(*redisfailoverv1.RedisFailover)
 	if !ok {
 		return fmt.Errorf("can't handle the received object: not a redisfailover")
+	}
+
+	if rf.Annotations != nil {
+		skipReconcile, ok := rf.Annotations["skip-reconcile"]
+		if ok && skipReconcile == "true" {
+			r.logger.Infoln("skip-reconcile set to true. Skipping reconcile for", rf.Name)
+			return nil
+		}
 	}
 
 	if err := rf.Validate(); err != nil {
