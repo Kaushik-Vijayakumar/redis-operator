@@ -135,7 +135,7 @@ func TestRedisFailover(t *testing.T) {
 	require.True(ok, "the custom resource has to be created to continue")
 
 	// Giving time to the operator to create the resources
-	time.Sleep(3 * time.Minute)
+	time.Sleep(5 * time.Minute)
 
 	// Verify that auth is set and actually working
 	t.Run("Check that auth is set in sentinel and redis configs", clients.testAuth)
