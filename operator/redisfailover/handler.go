@@ -54,6 +54,7 @@ func NewRedisFailoverHandler(config Config, rfService rfservice.RedisFailoverCli
 
 // Handle will ensure the redis failover is in the expected state.
 func (r *RedisFailoverHandler) Handle(_ context.Context, obj runtime.Object) error {
+
 	rf, ok := obj.(*redisfailoverv1.RedisFailover)
 	if !ok {
 		return fmt.Errorf("can't handle the received object: not a redisfailover")
