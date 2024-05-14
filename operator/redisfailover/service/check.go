@@ -141,16 +141,8 @@ func (r *RedisFailoverChecker) CheckAllSlavesFromMaster(master string, rf *redis
 			if err != nil {
 				return err
 			}
-			err = r.setMasterAnnotationIfNecessary(rf.Namespace, rp)
-			if err != nil {
-				return err
-			}
 		} else {
 			err = r.setSlaveLabelIfNecessary(rf.Namespace, rp)
-			if err != nil {
-				return err
-			}
-			err = r.setSlaveAnnotationIfNecessary(rf.Namespace, rp)
 			if err != nil {
 				return err
 			}
