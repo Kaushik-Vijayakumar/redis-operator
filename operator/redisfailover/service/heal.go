@@ -61,26 +61,6 @@ func (r *RedisFailoverHealer) setSlaveLabelIfNecessary(namespace string, pod v1.
 	return r.k8sService.UpdatePodLabels(namespace, pod.ObjectMeta.Name, generateRedisSlaveRoleLabel())
 }
 
-func (r *RedisFailoverHealer) setMasterAnnotationIfNecessary(namespace string, pod v1.Pod) error {
-	for annotationKey, annotationValue := range pod.ObjectMeta.Annotations {
-		if annotationKey == clusterAutoscalerSafeToEvictAnnotationKey &&
-			annotationValue == clusterAutoscalerSafeToEvictAnnotationMaster {
-			return nil
-		}
-	}
-	return r.k8sService.UpdatePodAnnotations(namespace, pod.ObjectMeta.Name, generateRedisMasterAnnotations())
-}
-
-func (r *RedisFailoverHealer) setSlaveAnnotationIfNecessary(namespace string, pod v1.Pod) error {
-	for annotationKey, annotationValue := range pod.ObjectMeta.Annotations {
-		if annotationKey == clusterAutoscalerSafeToEvictAnnotationKey &&
-			annotationValue == clusterAutoscalerSafeToEvictAnnotationSlave {
-			return nil
-		}
-	}
-	return r.k8sService.UpdatePodAnnotations(namespace, pod.ObjectMeta.Name, generateRedisSlaveAnnotations())
-}
-
 func (r *RedisFailoverHealer) MakeMaster(ip string, rf *redisfailoverv1.RedisFailover) error {
 	password, err := k8s.GetRedisPassword(r.k8sService, rf)
 	if err != nil {
