@@ -79,10 +79,7 @@ func (r *RedisFailoverHealer) MakeMaster(ip string, rf *redisfailoverv1.RedisFai
 	}
 	for _, rp := range rps.Items {
 		if rp.Status.PodIP == ip {
-			err = r.setMasterLabelIfNecessary(rf.Namespace, rp)
-			if err != nil {
-				return err
-			}
+			return r.setMasterLabelIfNecessary(rf.Namespace, rp)
 		}
 	}
 	return nil
