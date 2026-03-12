@@ -6836,6 +6836,9 @@ spec:
                     type: integer
                   preventMasterEviction:
                     type: boolean
+                  disableMasterRollout:
+                    description: When true, only slave pods are rolled out on spec change (OnDelete); master is not deleted until this is false.
+                    type: boolean
                   priorityClassName:
                     type: string
                   replicas:
